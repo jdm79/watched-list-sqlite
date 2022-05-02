@@ -1,6 +1,7 @@
+import datetime
 import database
+#from database import add_movie, get_movies, watch_movie, get_watched_movies, create_tables
 
-# this variable will be passed to the user function
 menu = """Please select one of the following options:
 1) Add new movie
 2) View upcoming movies
@@ -10,20 +11,30 @@ menu = """Please select one of the following options:
 6) Exit
 
 Your selection: """
-
 welcome = "Welcome to the watchlist app!"
 
-print(welcome)
 
+print(welcome)
 database.create_tables()
+
+
+def prompt_add_movie():
+    title = input("Movie title: ")
+    release_date = input("Release date (dd-mm-YYYY): ")
+    # parse the string into a datetime object
+    parsed_date = datetime.datetime.strptime(release_date, "%d-%m-%Y")
+    timestamp = parsed_date.timestamp()
+
+    database.add_movie(title, timestamp)
+
 
 # using walrus operator below to refactor code 
 while (user_input := input(menu)) != "6":
     if user_input == "1":
-        prompt_new_entry()
+        prompt_add_movie()
         
     elif user_input == "2":
-        view_entries(get_entries())
+        pass
 
     elif user_input == "3":
         pass
@@ -36,17 +47,3 @@ while (user_input := input(menu)) != "6":
     
     else:
         print("Invalid option - please try again")
-
-# def prompt_new_entry():
-#     entry_content = input("What have you learned today? ")
-#     entry_date = input("Enter the date: ")
-
-#     add_entry(entry_content, entry_date)
-
-# def view_entries(entries):
-#     for entry in entries:
-#         print(f"\n{entry['date']}\n{entry['content']}\n")
-
-
-
-

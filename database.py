@@ -1,6 +1,6 @@
 from multiprocessing import connection
 import sqlite3
-import datetime
+
 
 CREATE_MOVIES_TABLE = """CREATE TABLE IF NOT EXISTS movies (
     title TEXT,
