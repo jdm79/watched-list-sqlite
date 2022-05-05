@@ -25,6 +25,7 @@ INSERT_WATCHED_MOVIE = "INSERT INTO watched (user_username, movie_id) VALUES (?,
 INSERT_USER = "INSERT INTO users (username) VALUES (?);"
 
 DELETE_MOVIE = "DELETE FROM movies WHERE title = ?;"
+SEARCH_MOVIES = """SELECT * FROM movies WHERE title LIKE ?;"""
 
 SELECT_ALL_MOVIES = "SELECT * FROM movies;"
 SELECT_UPCOMING_MOVIES = "SELECT * FROM movies WHERE release_timestamp > ?;"
@@ -60,6 +61,14 @@ def get_movies(upcoming=False):
         else:
             cursor.execute(SELECT_ALL_MOVIES)
         return cursor.fetchall()
+
+
+def search_movies(search_term):
+    with connection:
+        cursor = connection.cursor()
+        cursor.execute(SEARCH_MOVIES, (f"%{search_term}%",))
+        return cursor.fetchall()
+
 
 def watch_movie(username, movie_id):
     with connection:
