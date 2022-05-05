@@ -27,6 +27,7 @@ INSERT_USER = "INSERT INTO users (username) VALUES (?);"
 DELETE_MOVIE = "DELETE FROM movies WHERE title = ?;"
 SEARCH_MOVIES = """SELECT * FROM movies WHERE title LIKE ?;"""
 
+
 SELECT_ALL_MOVIES = "SELECT * FROM movies;"
 SELECT_UPCOMING_MOVIES = "SELECT * FROM movies WHERE release_timestamp > ?;"
 SELECT_WATCHED_MOVIES = """SELECT movies.* FROM movies 
@@ -35,6 +36,7 @@ SELECT_WATCHED_MOVIES = """SELECT movies.* FROM movies
     WHERE users.username = ?;"""
 
 SET_MOVIE_WATCHED = "UPDATE movies SET watched = 1 WHERE title = ?;"
+CREATE_RELEASE_INDEX = "CREATE INDEX IF NOT EXISTS idx_movies_release ON movies(release_timestamp);"
 
 connection = sqlite3.connect("data.db")
 
@@ -43,6 +45,7 @@ def create_tables():
         connection.execute(CREATE_MOVIES_TABLE)
         connection.execute(CREATE_USERS_TABLE)
         connection.execute(CREATE_WATCHED_TABLE)
+        connection.execute(CREATE_RELEASE_INDEX)
 
 def add_user(username):
     with connection:
